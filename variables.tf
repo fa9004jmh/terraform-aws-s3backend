@@ -1,6 +1,6 @@
 variable "namespace" {
   description = "The project namespace to use for unique resource naming"
-  default     = "s3backend"
+  default     = "s3backend4"
   type        = string
 }
 

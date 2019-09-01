@@ -1,9 +1,9 @@
-data "aws_region" "current" {} #A
+data "aws_region" "current" {}
 
 resource "aws_resourcegroups_group" "resourcegroups_group" {
   name = "${var.namespace}-group"
 
-  resource_query { #B
+  resource_query { 
     query = <<-JSON
 {
   "ResourceTypeFilters": [
@@ -64,4 +64,3 @@ resource "aws_dynamodb_table" "dynamodb_table" {
     ResourceGroup = var.namespace 
   }
 }
-
