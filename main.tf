@@ -47,3 +47,21 @@ resource "aws_s3_bucket" "s3_bucket" {
       }
     }
   }
+  tags = {
+    ResourceGroup = var.namespace 
+  }
+}
+
+resource "aws_dynamodb_table" "dynamodb_table" {
+  name         = "${var.namespace}-state-lock"
+  hash_key     = "LockID"
+  billing_mode = "PAY_PER_REQUEST" #C
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+  tags = {
+    ResourceGroup = var.namespace 
+  }
+}
+
