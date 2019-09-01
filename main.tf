@@ -1,9 +1,9 @@
-data "aws_region" "current" {} #A
+data "aws_region" "current" {} 
 
 resource "aws_resourcegroups_group" "resourcegroups_group" {
   name = "${var.namespace}-group"
 
-  resource_query { #B
+  resource_query { 
     query = <<-JSON
 {
   "ResourceTypeFilters": [
@@ -55,7 +55,7 @@ resource "aws_s3_bucket" "s3_bucket" {
 resource "aws_dynamodb_table" "dynamodb_table" {
   name         = "${var.namespace}-state-lock"
   hash_key     = "LockID"
-  billing_mode = "PAY_PER_REQUEST" #C
+  billing_mode = "PAY_PER_REQUEST"
   attribute {
     name = "LockID"
     type = "S"
@@ -64,7 +64,3 @@ resource "aws_dynamodb_table" "dynamodb_table" {
     ResourceGroup = var.namespace 
   }
 }
-#A This will be used to set an output value
-#B Populate the resource group based on a tagging schema
-#C Provision a serverless database to save money
-Next is the code for iam.tf. This particular code is important because it creates a least priviliged IAM role that another AWS account can assume in order to be able to leverage the S3 remote backend for state storage. It grants IAM permissions for storing the state file in S3, and getting/deleting records in the DynamoDB table for locking purposes.
