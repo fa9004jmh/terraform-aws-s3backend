@@ -1,9 +1,9 @@
-data "aws_region" "current" {} 
+data "aws_region" "current" {} #A
 
 resource "aws_resourcegroups_group" "resourcegroups_group" {
   name = "${var.namespace}-group"
 
-  resource_query { 
+  resource_query { #B
     query = <<-JSON
 {
   "ResourceTypeFilters": [
@@ -47,20 +47,3 @@ resource "aws_s3_bucket" "s3_bucket" {
       }
     }
   }
-  tags = {
-    ResourceGroup = var.namespace 
-  }
-}
-
-resource "aws_dynamodb_table" "dynamodb_table" {
-  name         = "${var.namespace}-state-lock"
-  hash_key     = "LockID"
-  billing_mode = "PAY_PER_REQUEST"
-  attribute {
-    name = "LockID"
-    type = "S"
-  }
-  tags = {
-    ResourceGroup = var.namespace 
-  }
-}
